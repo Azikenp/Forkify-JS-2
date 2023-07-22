@@ -714,7 +714,13 @@ const showRecipe = async function() {
         alert(err);
     }
 };
-window.addEventListener("hashchange", showRecipe);
+// window.addEventListener('hashchange', showRecipe);
+// window.addEventListener('load', showRecipe);
+const windowObj = [
+    "hashchange",
+    "load"
+];
+windowObj.forEach((ev)=>window.addEventListener(ev, showRecipe));
 
 },{"url:../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"loVOp":[function(require,module,exports) {
 module.exports = require("9bcc84ee5d265e38").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
