@@ -8,7 +8,7 @@ export const state = {
 
 export const loadRecipe= async function(id){
     try{
-        const data = await getJSON(`${API_URL}/${id}`)
+        const data = await getJSON(`${API_URL}${id}`)
 
         const {recipe} = data.data;
         state.recipe ={
@@ -25,5 +25,16 @@ export const loadRecipe= async function(id){
         console.error(`${err} is from your app`)
         throw err;
     }
-
 }
+
+
+export const loadSearchResults = async function(query){
+    try{
+        const data = await getJSON(`${API_URL}?search=${query}`);
+        console.log(data);
+
+    } catch (err){
+        throw err;
+    }
+}
+loadSearchResults('pizza')
