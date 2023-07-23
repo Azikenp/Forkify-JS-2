@@ -629,7 +629,7 @@ const controlSearchResults = async function() {
         // 2) Load search query
         await _model.loadSearchResults(query);
         //3) render results
-        (0, _resultsViewDefault.default).render(_model.getSearchResultsPage(3));
+        (0, _resultsViewDefault.default).render(_model.getSearchResultsPage());
         //$) Render initial pagination buttons
         (0, _paginationViewDefault.default).render(_model.state.search);
     } catch (err) {
