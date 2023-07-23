@@ -643,10 +643,18 @@ const controlPagination = function(goToPage) {
     //$) Render NEW pagination buttons
     (0, _paginationViewDefault.default).render(_model.state.search);
 };
+const controlServings = function() {
+    // Update recipe servings (in the state)
+    _model.updateServings(8);
+    // Update the view
+    (0, _recipeViewDefault.default).render(_model.state.recipe);
+};
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
+    (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
+// controlServings();
 };
 init();
 
@@ -657,6 +665,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _config = require("./config");
 var _helper = require("./helper");
 const state = {
@@ -708,6 +717,13 @@ const getSearchResultsPage = function(page = state.search.page) {
     const start = (page - 1) * state.search.resultsPerPage; //0
     const end = page * state.search.resultsPerPage; //9
     return state.search.results.slice(start, end);
+};
+const updateServings = function(newServings) {
+    state.recipe.ingredients.forEach((ing)=>{
+        ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    //newQt = oldQt * newServings / oldServings
+    });
+    state.recipe.servings = newServings;
 };
 
 },{"./config":"k5Hzs","./helper":"lVRAz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
@@ -794,6 +810,14 @@ class RecipeView extends (0, _viewDefault.default) {
             "load"
         ];
         windowObj.forEach((ev)=>window.addEventListener(ev, handler));
+    }
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--tiny");
+            if (!btn) return;
+            console.log(btn);
+            handler();
+        });
     }
     _generateMarkup() {
         console.log(this._data);
