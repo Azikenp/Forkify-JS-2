@@ -26,7 +26,14 @@ class RecipeView {
         `;
         this.#parentElement.innerHTML = '';
         this.#parentElement.insertAdjacentHTML('afterbegin', markup)
-      }
+    }
+
+    addHandlerRender(handler){
+        const windowObj = ['hashchange', 'load'];
+        windowObj.forEach(ev => window.addEventListener(ev, handler)
+        );
+    }
+
 
     #generateMarkup() {
         console.log(this.#data);

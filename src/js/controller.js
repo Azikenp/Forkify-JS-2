@@ -35,24 +35,15 @@ const renderSpinner =  function(parentEl){
 const controlRecipes = async function(){
   try{
     const id = window.location.hash.slice(1);
-    console.log(id);
 
     if (!id) return;
     recipeView.renderSpinner();
 
-
     // 1) Loading recipe
     await model.loadRecipe(id);
-    
-    
 
     // 2) Rendering Recipe
     recipeView.render(model.state.recipe);
-
-    
-
-
-
   } catch(err){
     alert (err)
     console.log(err)
@@ -62,7 +53,7 @@ const controlRecipes = async function(){
 
 
 
-// window.addEventListener('hashchange', controlRecipes);
-// window.addEventListener('load', controlRecipes);
-const windowObj = ['hashchange', 'load'];
-windowObj.forEach(ev => window.addEventListener(ev, controlRecipes))
+const init = function(){
+  recipeView.addHandlerRender(controlRecipes)
+}
+init();

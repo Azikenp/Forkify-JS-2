@@ -602,7 +602,6 @@ const renderSpinner = function(parentEl) {
 const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
-        console.log(id);
         if (!id) return;
         (0, _recipeViewDefault.default).renderSpinner();
         // 1) Loading recipe
@@ -614,13 +613,10 @@ const controlRecipes = async function() {
         console.log(err);
     }
 };
-// window.addEventListener('hashchange', controlRecipes);
-// window.addEventListener('load', controlRecipes);
-const windowObj = [
-    "hashchange",
-    "load"
-];
-windowObj.forEach((ev)=>window.addEventListener(ev, controlRecipes));
+const init = function() {
+    (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
+};
+init();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model":"Y4A21","./views/recipeView":"l60JC"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -676,7 +672,6 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-        console.log(state.recipe);
     } catch (err) {
         console.error(`${err} is from your app`);
     }
@@ -745,6 +740,13 @@ class RecipeView {
         this.#parentElement.innerHTML = "";
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
     };
+    addHandlerRender(handler) {
+        const windowObj = [
+            "hashchange",
+            "load"
+        ];
+        windowObj.forEach((ev)=>window.addEventListener(ev, handler));
+    }
     #generateMarkup() {
         console.log(this.#data);
         return `
