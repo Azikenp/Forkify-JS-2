@@ -1,3 +1,7 @@
+
+
+import * as model from './model'
+import recipeView from './views/recipeView';
 import icons from  'url:../img/icons.svg';
 
 const recipeContainer = document.querySelector('.recipe');
@@ -7,7 +11,7 @@ const timeout = function (s) {
     setTimeout(function () {
       reject(new Error(`Request took too long! Timeout after ${s} second`));
     }, s * 1000);
-  });
+  }); 
 };
 
 // https://forkify-api.herokuapp.com/v2
@@ -34,26 +38,14 @@ const showRecipe = async function(){
     console.log(id);
 
     if (!id) return;
+    renderSpinner(recipeContainer);
+
 
     // 1) Loading recipe
-    renderSpinner(recipeContainer)
-    const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
-    const data = await res.json()
-
-    if(!res.ok) throw new Error(`${data.message} (${res.status})`)
-
-    console.log(res, data);
-    let {recipe} = data.data;
-    recipe ={
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients
-    }
+    await model.loadRecipe(id);
+    const {recipe} = model.state;
+    
+    
 
     // 2) Rendering Recipe
     const markup = `
@@ -151,6 +143,7 @@ const showRecipe = async function(){
 
   } catch(err){
     alert (err)
+    console.log(err)
   }
 }
 
