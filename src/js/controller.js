@@ -1,5 +1,3 @@
-
-
 import * as model from './model'
 import recipeView from './views/recipeView';
 
@@ -49,9 +47,6 @@ const controlRecipes = async function(){
     console.log(err)
   }
 }
-
-
-
 
 const init = function(){
   recipeView.addHandlerRender(controlRecipes)
