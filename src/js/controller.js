@@ -4,30 +4,33 @@ import searchView from './views/searchView';
 import resultsView from './views/resultsView';
 
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  }); 
-};
+// const timeout = function (s) {
+//   return new Promise(function (_, reject) {
+//     setTimeout(function () {
+//       reject(new Error(`Request took too long! Timeout after ${s} second`));
+//     }, s * 1000);
+//   }); 
+// };
 
 
-///////////////////////////////////////
+// ///////////////////////////////////////
 
 
-const renderSpinner =  function(parentEl){
-  const markup = `
-  <div class="spinner">
-    <svg>
-      <use href="${icons}#icon-loader"></use>
-    </svg>
-  </div>  
-  `;
-  parentEl.innerHTML = '';
-  parentEl.insertAdjacentHTML('afterbegin', markup)
+// const renderSpinner =  function(parentEl){
+//   const markup = `
+//   <div class="spinner">
+//     <svg>
+//       <use href="${icons}#icon-loader"></use>
+//     </svg>
+//   </div>  
+//   `;
+//   parentEl.innerHTML = '';
+//   parentEl.insertAdjacentHTML('afterbegin', markup)
+// }
+
+if (module.hot){
+  module.hot.accept();
 }
-
 
 const controlRecipes = async function(){
   try{
