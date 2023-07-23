@@ -23,6 +23,7 @@ export const loadRecipe= async function(id){
         }
     } catch (err) {
         console.error(`${err} is from your app`)
+        throw err;
     }
 
 }
