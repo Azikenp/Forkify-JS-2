@@ -20,20 +20,20 @@ class RecipeView extends View {
         console.log(this._data);
         return  `
             <figure class="recipe__fig">
-            <img height="100%" width="100%" src="${this._data.image}" alt="${this._data.title}" />
-            <h1 class="recipe__title">
-                <span>${this._data.title}</span>
-            </h1>
+                <img height="100%" width="100%" src="${this._data.image}" alt="${this._data.title}" />
+                <h1 class="recipe__title">
+                    <span>${this._data.title}</span>
+                </h1>
             </figure>
             
             <div class="recipe__details">
-            <div class="recipe__info">
-                <svg class="recipe__info-icon">
-                <use href="${icons}#icon-clock"></use>
-                </svg>
-                <span class="recipe__info-data recipe__info-data--minutes">${this._data.cookingTime}</span>
-                <span class="recipe__info-text">minutes</span>
-            </div>
+                <div class="recipe__info">
+                    <svg class="recipe__info-icon">
+                        <use href="${icons}#icon-clock"></use>
+                    </svg>
+                    <span class="recipe__info-data recipe__info-data--minutes">${this._data.cookingTime}</span>
+                    <span class="recipe__info-text">minutes</span>
+                </div>
             <div class="recipe__info">
                 <svg class="recipe__info-icon">
                 <use href="${icons}#icon-users"></use>
@@ -73,22 +73,22 @@ class RecipeView extends View {
             </div>
             
             <div class="recipe__directions">
-            <h2 class="heading--2">How to cook it</h2>
-            <p class="recipe__directions-text">
-                This recipe was carefully designed and tested by
-                <span class="recipe__publisher">${this._data.publisher}</span>. Please check out
-                directions at their website.
-            </p>
-            <a
-                class="btn--small recipe__btn"
-                href="${this._data.sourceUrl}"
-                target="_blank"
-            >
-                <span>Directions</span>
-                <svg class="search__icon">
-                <use href="${icons}#icon-arrow-right"></use>
-                </svg>
-            </a>
+                <h2 class="heading--2">How to cook it</h2>
+                <p class="recipe__directions-text">
+                    This recipe was carefully designed and tested by
+                    <span class="recipe__publisher">${this._data.publisher}</span>. Please check out
+                    directions at their website.
+                </p>
+                <a
+                    class="btn--small recipe__btn"
+                    href="${this._data.sourceUrl}"
+                    target="_blank"
+                >
+                    <span>Directions</span>
+                    <svg class="search__icon">
+                        <use href="${icons}#icon-arrow-right"></use>
+                    </svg>
+                </a>
             </div>
         `;
     }
