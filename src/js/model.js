@@ -8,7 +8,8 @@ export const state = {
         results: [],
         page: 1,
         resultsPerPage : RES_PER_PAGE,
-    }
+    },
+    bookmarks: [],
 }
 
 
@@ -70,4 +71,15 @@ export const updateServings = function(newServings) {
     });
 
     state.recipe.servings = newServings;
+}
+
+export const addBookmarks = function(recipe){
+
+    // Add bookmarks
+    state.bookmarks.push(recipe)
+
+    // Marc current recipe as bookmarked
+    if(recipe.id === state.recipe.id){
+        state.recipe.bookmarked = true;
+    }
 }

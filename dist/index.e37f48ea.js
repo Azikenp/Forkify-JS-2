@@ -669,6 +669,7 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
+parcelHelpers.export(exports, "addBookmarks", ()=>addBookmarks);
 var _config = require("./config");
 var _helper = require("./helper");
 const state = {
@@ -678,7 +679,8 @@ const state = {
         results: [],
         page: 1,
         resultsPerPage: (0, _config.RES_PER_PAGE)
-    }
+    },
+    bookmarks: []
 };
 const loadRecipe = async function(id) {
     try {
@@ -728,6 +730,12 @@ const updateServings = function(newServings) {
     //newQt = oldQt * newServings / oldServings
     });
     state.recipe.servings = newServings;
+};
+const addBookmarks = function(recipe) {
+    // Add bookmarks
+    state.bookmarks.push(recipe);
+    // Marc current recipe as bookmarked
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
 };
 
 },{"./config":"k5Hzs","./helper":"lVRAz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
