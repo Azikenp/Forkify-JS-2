@@ -932,8 +932,19 @@ class View {
         this._data = data;
         const newMarkup = this._generateMarkup();
         const newDOM = document.createRange().createContextualFragment(newMarkup);
-        const newElements = -newDOM.querySelectorAll("*");
-        console.log(newElements);
+        const newElements = Array.from(newDOM.querySelectorAll("*"));
+        const curElements = Array.from(this._parentElement.querySelectorAll("*"));
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            console.log(curEl, newEl.isEqualNode(curEl));
+            //update changed text
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== "") // console.log('Hahahahahahahaha', newEl.firstChild.nodeValue.trim());
+            curEl.textContent = newEl.textContent;
+            //update changed attribute
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>{
+                curEl.setAttribute(attr.name, attr.value);
+            });
+        });
     }
     _clear() {
         this._parentElement.innerHTML = "";
@@ -1378,4 +1389,15 @@ class paginationView extends (0, _viewDefault.default) {
                 <span>Page ${curPage + 1}</span>
                 <svg class="search__icon">
                     <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
-                <
+                </svg>
+            </button>
+            `;
+        // Page 1, and there are no other pages
+        return ``;
+    }
+}
+exports.default = new paginationView();
+
+},{"./view":"bWlJ9","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aD7Zm","aenu9"], "aenu9", "parcelRequire3a11")
+
+//# sourceMappingURL=index.e37f48ea.js.map
