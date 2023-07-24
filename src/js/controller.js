@@ -3,6 +3,7 @@ import recipeView from './views/recipeView';
 import searchView from './views/searchView';
 import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
+import bookmarksView from './views/bookmarksView';
 
 
 // const timeout = function (s) {
@@ -42,6 +43,7 @@ const controlRecipes = async function(){
 
     // 0) results view to mark selected serach results
     resultsView.update(model.getSearchResultsPage());
+    bookmarksView.update(model.state.bookmarks);
 
     // 1) Loading recipe
     await model.loadRecipe(id);
@@ -95,14 +97,15 @@ const controlServings = function(newServings) {
 }
 
 const controlAddBookmark = function() {
+  //Add or remove bookmark
   if(!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
   else model.deleteBookmark(model.state.recipe.id);
 
-  
-
-  console.log(model.state.recipe);
-
+  //update recipe view
   recipeView.update(model.state.recipe);
+
+  //render bookmarks
+  bookmarksView.render(model.state.bookmarks);
 }
 
 

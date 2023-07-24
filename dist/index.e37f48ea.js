@@ -584,6 +584,8 @@ var _resultsView = require("./views/resultsView");
 var _resultsViewDefault = parcelHelpers.interopDefault(_resultsView);
 var _paginationView = require("./views/paginationView");
 var _paginationViewDefault = parcelHelpers.interopDefault(_paginationView);
+var _bookmarksView = require("./views/bookmarksView");
+var _bookmarksViewDefault = parcelHelpers.interopDefault(_bookmarksView);
 // const timeout = function (s) {
 //   return new Promise(function (_, reject) {
 //     setTimeout(function () {
@@ -613,6 +615,7 @@ const controlRecipes = async function() {
         (0, _recipeViewDefault.default).renderSpinner();
         // 0) results view to mark selected serach results
         (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
+        (0, _bookmarksViewDefault.default).update(_model.state.bookmarks);
         // 1) Loading recipe
         await _model.loadRecipe(id);
         // 2) Rendering Recipe
@@ -653,10 +656,13 @@ const controlServings = function(newServings) {
     (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
 const controlAddBookmark = function() {
+    //Add or remove bookmark
     if (!_model.state.recipe.bookmarked) _model.addBookmark(_model.state.recipe);
     else _model.deleteBookmark(_model.state.recipe.id);
-    console.log(_model.state.recipe);
+    //update recipe view
     (0, _recipeViewDefault.default).update(_model.state.recipe);
+    //render bookmarks
+    (0, _bookmarksViewDefault.default).render(_model.state.bookmarks);
 };
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
@@ -668,7 +674,7 @@ const init = function() {
 };
 init();
 
-},{"./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/paginationView":"6z7bi"}],"Y4A21":[function(require,module,exports) {
+},{"./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/paginationView":"6z7bi","./views/bookmarksView":"4Lqzq"}],"Y4A21":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
@@ -1432,6 +1438,40 @@ class paginationView extends (0, _viewDefault.default) {
     }
 }
 exports.default = new paginationView();
+
+},{"./view":"bWlJ9","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Lqzq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./view");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class BookmarksView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(".bookmarks__list");
+    _errorMessage = "No bookmarks yet, Find a nice recipe and bookmark it";
+    _message = "";
+    _generateMarkup() {
+        console.log(this._data);
+        return this._data.map(this._generateMarkupPreview).join("");
+    }
+    _generateMarkupPreview(result) {
+        const id = window.location.hash.slice(1);
+        return `
+            <li class="preview">
+                <a class="preview__link ${result.id === id ? "preview__link--active" : ""}" href="#${result.id}">
+                <figure class="preview__fig">
+                    <img src="${result.image}" alt="${result.title}" />
+                </figure>
+                <div class="preview__data">
+                    <h4 class="preview__title">${result.title}</h4>
+                    <p class="preview__publisher">${result.publisher}</p>
+                </div>
+                </a>
+            </li>
+        `;
+    }
+}
+exports.default = new BookmarksView();
 
 },{"./view":"bWlJ9","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aD7Zm","aenu9"], "aenu9", "parcelRequire3a11")
 
