@@ -84,8 +84,19 @@ export const addBookmark = function(recipe){
     // Add bookmarks
     state.bookmarks.push(recipe)
 
-    // Marc current recipe as bookmarked
+    // Mark current recipe as bookmarked
     if(recipe.id === state.recipe.id){
         state.recipe.bookmarked = true;
+    }
+}
+
+export const deleteBookmark = function(id){
+    //Delete bookmarked
+    const index = state.bookmarks.findIndex(el => el.id === id);
+    state.bookmarks.splice(index, 1);
+
+    // Mark current recipe NOT as bookmarked
+    if(id === state.recipe.id){
+        state.recipe.bookmarked = false;
     }
 }

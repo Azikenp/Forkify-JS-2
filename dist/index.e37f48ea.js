@@ -653,7 +653,8 @@ const controlServings = function(newServings) {
     (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
 const controlAddBookmark = function() {
-    _model.addBookmark(_model.state.recipe);
+    if (!_model.state.recipe.bookmarked) _model.addBookmark(_model.state.recipe);
+    else _model.deleteBookmark(_model.state.recipe.id);
     console.log(_model.state.recipe);
     (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
@@ -676,6 +677,7 @@ parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
 var _config = require("./config");
 var _helper = require("./helper");
 const state = {
@@ -742,8 +744,15 @@ const updateServings = function(newServings) {
 const addBookmark = function(recipe) {
     // Add bookmarks
     state.bookmarks.push(recipe);
-    // Marc current recipe as bookmarked
+    // Mark current recipe as bookmarked
     if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+};
+const deleteBookmark = function(id) {
+    //Delete bookmarked
+    const index = state.bookmarks.findIndex((el)=>el.id === id);
+    state.bookmarks.splice(index, 1);
+    // Mark current recipe NOT as bookmarked
+    if (id === state.recipe.id) state.recipe.bookmarked = false;
 };
 
 },{"./config":"k5Hzs","./helper":"lVRAz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
