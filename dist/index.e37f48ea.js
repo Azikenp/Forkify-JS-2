@@ -647,7 +647,8 @@ const controlServings = function(newServings) {
     // Update recipe servings (in the state)
     _model.updateServings(newServings);
     // Update the view
-    (0, _recipeViewDefault.default).render(_model.state.recipe);
+    // recipeView.render(model.state.recipe);
+    (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
@@ -925,6 +926,14 @@ class View {
         const markup = this._generateMarkup();
         this._clear();
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    update(data) {
+        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = -newDOM.querySelectorAll("*");
+        console.log(newElements);
     }
     _clear() {
         this._parentElement.innerHTML = "";
@@ -1369,15 +1378,4 @@ class paginationView extends (0, _viewDefault.default) {
                 <span>Page ${curPage + 1}</span>
                 <svg class="search__icon">
                     <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
-                </svg>
-            </button>
-            `;
-        // Page 1, and there are no other pages
-        return ``;
-    }
-}
-exports.default = new paginationView();
-
-},{"./view":"bWlJ9","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aD7Zm","aenu9"], "aenu9", "parcelRequire3a11")
-
-//# sourceMappingURL=index.e37f48ea.js.map
+                <
