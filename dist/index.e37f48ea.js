@@ -615,12 +615,12 @@ const controlRecipes = async function() {
         (0, _recipeViewDefault.default).renderSpinner();
         // 0) results view to mark selected serach results
         (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
-        // 1) Loading recipe
-        await _model.loadRecipe(id);
-        // 2) Rendering Recipe
-        (0, _recipeViewDefault.default).render(_model.state.recipe);
-        // 3) Updating bookmarks view
+        // 1) Updating bookmarks view
         (0, _bookmarksViewDefault.default).update(_model.state.bookmarks);
+        // 2) Loading recipe
+        await _model.loadRecipe(id);
+        // 3) Rendering Recipe
+        (0, _recipeViewDefault.default).render(_model.state.recipe);
     } catch (err) {
         console.log(err);
         (0, _recipeViewDefault.default).renderError();
@@ -665,7 +665,11 @@ const controlAddBookmark = function() {
     //render bookmarks
     (0, _bookmarksViewDefault.default).render(_model.state.bookmarks);
 };
+const controlBookmarks = function() {
+    (0, _bookmarksViewDefault.default).render(_model.state.bookmarks);
+};
 const init = function() {
+    (0, _bookmarksViewDefault.default).addHandlerRender(controlBookmarks);
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
     (0, _recipeViewDefault.default).addHandlerAddBookmark(controlAddBookmark);
     (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
@@ -768,10 +772,9 @@ const deleteBookmark = function(id) {
 };
 const init = function() {
     const storage = localStorage.getItem("bookmarks");
-    if (!storage) state.bookmarks = JSON.parse(storage);
+    if (storage) state.bookmarks = JSON.parse(storage);
 };
 init();
-console.log(state.bookmarks);
 
 },{"./config":"k5Hzs","./helper":"lVRAz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

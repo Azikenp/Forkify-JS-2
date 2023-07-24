@@ -9,7 +9,7 @@ class BookmarksView extends View {
     
 
     addHandlerRender(handler){
-        window.addEventListener('load', handler)
+        window.addEventListener('load', handler);
     }
 
     _generateMarkup(){
