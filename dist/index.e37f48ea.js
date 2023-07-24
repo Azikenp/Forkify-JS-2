@@ -775,6 +775,10 @@ const init = function() {
     if (storage) state.bookmarks = JSON.parse(storage);
 };
 init();
+const clearBookmarks = function() {
+    localStorage.clear("bookmarks");
+} // clearBookmarks();
+;
 
 },{"./config":"k5Hzs","./helper":"lVRAz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
