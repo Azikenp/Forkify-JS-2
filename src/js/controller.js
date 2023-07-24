@@ -43,13 +43,16 @@ const controlRecipes = async function(){
 
     // 0) results view to mark selected serach results
     resultsView.update(model.getSearchResultsPage());
-    bookmarksView.update(model.state.bookmarks);
-
+    
     // 1) Loading recipe
     await model.loadRecipe(id);
-
+    
     // 2) Rendering Recipe
     recipeView.render(model.state.recipe);
+
+
+    // 3) Updating bookmarks view
+    bookmarksView.update(model.state.bookmarks);
   } catch(err){
     console.log(err)
     recipeView.renderError();

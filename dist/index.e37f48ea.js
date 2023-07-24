@@ -615,11 +615,12 @@ const controlRecipes = async function() {
         (0, _recipeViewDefault.default).renderSpinner();
         // 0) results view to mark selected serach results
         (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
-        (0, _bookmarksViewDefault.default).update(_model.state.bookmarks);
         // 1) Loading recipe
         await _model.loadRecipe(id);
         // 2) Rendering Recipe
         (0, _recipeViewDefault.default).render(_model.state.recipe);
+        // 3) Updating bookmarks view
+        (0, _bookmarksViewDefault.default).update(_model.state.bookmarks);
     } catch (err) {
         console.log(err);
         (0, _recipeViewDefault.default).renderError();
@@ -747,11 +748,15 @@ const updateServings = function(newServings) {
     });
     state.recipe.servings = newServings;
 };
+const persistBookmark = function() {
+    localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+};
 const addBookmark = function(recipe) {
     // Add bookmarks
     state.bookmarks.push(recipe);
     // Mark current recipe as bookmarked
     if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+    persistBookmark();
 };
 const deleteBookmark = function(id) {
     //Delete bookmarked
@@ -759,7 +764,14 @@ const deleteBookmark = function(id) {
     state.bookmarks.splice(index, 1);
     // Mark current recipe NOT as bookmarked
     if (id === state.recipe.id) state.recipe.bookmarked = false;
+    persistBookmark();
 };
+const init = function() {
+    const storage = localStorage.getItem("bookmarks");
+    if (!storage) state.bookmarks = JSON.parse(storage);
+};
+init();
+console.log(state.bookmarks);
 
 },{"./config":"k5Hzs","./helper":"lVRAz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -862,7 +874,6 @@ class RecipeView extends (0, _viewDefault.default) {
         });
     }
     _generateMarkup() {
-        console.log(this._data);
         return `
             <figure class="recipe__fig">
                 <img height="100%" width="100%" src="${this._data.image}" alt="${this._data.title}" />
@@ -1359,7 +1370,6 @@ class ResultsView extends (0, _viewDefault.default) {
     _errorMessage = "No recipes found for your query, Please try again.";
     _message = "";
     _generateMarkup() {
-        console.log(this._data);
         return this._data.map((bookmark)=>(0, _previewViewDefault.default).render(bookmark, false)).join("");
     }
 }
@@ -1467,8 +1477,10 @@ class BookmarksView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".bookmarks__list");
     _errorMessage = "No bookmarks yet, Find a nice recipe and bookmark it";
     _message = "";
+    addHandlerRender(handler) {
+        window.addEventListener("load", handler);
+    }
     _generateMarkup() {
-        console.log(this._data);
         return this._data.map((bookmark)=>(0, _previewViewDefault.default).render(bookmark, false)).join("");
     }
 }
