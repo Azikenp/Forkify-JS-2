@@ -652,8 +652,14 @@ const controlServings = function(newServings) {
     // recipeView.render(model.state.recipe);
     (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
+const controlAddBookmark = function() {
+    _model.addBookmark(_model.state.recipe);
+    console.log(_model.state.recipe);
+    (0, _recipeViewDefault.default).update(_model.state.recipe);
+};
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
+    (0, _recipeViewDefault.default).addHandlerAddBookmark(controlAddBookmark);
     (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
@@ -669,7 +675,7 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
-parcelHelpers.export(exports, "addBookmarks", ()=>addBookmarks);
+parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
 var _config = require("./config");
 var _helper = require("./helper");
 const state = {
@@ -731,7 +737,7 @@ const updateServings = function(newServings) {
     });
     state.recipe.servings = newServings;
 };
-const addBookmarks = function(recipe) {
+const addBookmark = function(recipe) {
     // Add bookmarks
     state.bookmarks.push(recipe);
     // Marc current recipe as bookmarked
@@ -831,6 +837,13 @@ class RecipeView extends (0, _viewDefault.default) {
             if (+updateTo > 0) handler(+updateTo);
         });
     }
+    addHandlerAddBookmark(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--bookmark");
+            if (!btn) return;
+            handler();
+        });
+    }
     _generateMarkup() {
         console.log(this._data);
         return `
@@ -873,9 +886,9 @@ class RecipeView extends (0, _viewDefault.default) {
                     <div class="recipe__user-generated">
                 
                 </div>
-                 <button class="btn--round">
+                 <button class="btn--round btn--bookmark">
                 <svg class="">
-                <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
+                <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"></use>
                 </svg>
             </button>
             </div>
@@ -946,7 +959,7 @@ class View {
         const curElements = Array.from(this._parentElement.querySelectorAll("*"));
         newElements.forEach((newEl, i)=>{
             const curEl = curElements[i];
-            console.log(curEl, newEl.isEqualNode(curEl));
+            // console.log(curEl, newEl.isEqualNode(curEl));
             //update changed text
             if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== "") // console.log('Hahahahahahahaha', newEl.firstChild.nodeValue.trim());
             curEl.textContent = newEl.textContent;
