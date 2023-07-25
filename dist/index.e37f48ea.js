@@ -685,7 +685,7 @@ const controlAddRecipe = async function(newRecipe) {
         //render bookmark view
         (0, _bookmarksViewDefault.default).render(_model.state.bookmarks);
         //change id in the url
-        window.history.pushState(null, "", `#${mode.state.recipe.id}`);
+        window.history.pushState(null, "", `#${_model.state.recipe.id}`);
         //close Form window
         setTimeout(function() {
             (0, _addRecipeViewDefault.default).toggleWindow();
@@ -749,7 +749,7 @@ const createRecipeObject = function(data) {
 };
 const loadRecipe = async function(id) {
     try {
-        const data = await (0, _helper.AJAX)(`${(0, _config.API_URL)}${id}`);
+        const data = await (0, _helper.AJAX)(`${(0, _config.API_URL)}${id}?key=${(0, _config.KEY)}`);
         state.recipe = createRecipeObject(data);
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = true;
         else state.recipe.bookmarked = false;
@@ -761,7 +761,7 @@ const loadRecipe = async function(id) {
 const loadSearchResults = async function(query) {
     try {
         state.search.query = query;
-        const data = await (0, _helper.AJAX)(`${(0, _config.API_URL)}?search=${query}`);
+        const data = await (0, _helper.AJAX)(`${(0, _config.API_URL)}?search=${query}&key=${(0, _config.KEY)}`);
         state.search.results = data.data.recipes.map((rec)=>{
             return {
                 id: rec.id,
