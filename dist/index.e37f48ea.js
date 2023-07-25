@@ -767,7 +767,10 @@ const loadSearchResults = async function(query) {
                 id: rec.id,
                 title: rec.title,
                 publisher: rec.publisher,
-                image: rec.image_url
+                image: rec.image_url,
+                ...rec.key && {
+                    key: rec.key
+                }
             };
         });
         state.search.page = 1;
@@ -1028,9 +1031,11 @@ class RecipeView extends (0, _viewDefault.default) {
                     </div>
                     </div>
                     
-                    <div class="recipe__user-generated">
-                
-                </div>
+                    <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
+                        <svg>
+                        <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+                        </svg>
+                    </div>
                  <button class="btn--round btn--bookmark">
                 <svg class="">
                 <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"></use>
@@ -1512,6 +1517,11 @@ class PreviewView extends (0, _viewDefault.default) {
                 <div class="preview__data">
                     <h4 class="preview__title">${this._data.title}</h4>
                     <p class="preview__publisher">${this._data.publisher}</p>
+                    <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
+                        <svg>
+                        <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+                        </svg>
+                    </div>
                 </div>
                 </a>
             </li>
