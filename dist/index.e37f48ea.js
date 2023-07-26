@@ -1166,7 +1166,7 @@ class View {
 }
 exports.default = View;
 
-},{"url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"loVOp":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:../../img/icons.svg":"loVOp"}],"loVOp":[function(require,module,exports) {
 module.exports = require("9bcc84ee5d265e38").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
 
 },{"9bcc84ee5d265e38":"lgJ39"}],"lgJ39":[function(require,module,exports) {
